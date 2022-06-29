@@ -123,6 +123,7 @@ class DataKaryawanController extends Component
     public function _validate()
     {
         $rule = [
+            'nik'  => 'required',
             'name'  => 'required',
             'email'  => 'required',
             'telepon'  => 'required',
