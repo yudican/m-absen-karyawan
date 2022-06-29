@@ -101,11 +101,13 @@ class Dashboard extends Component
     public function showModalWebcam($jadwal_id)
     {
         $data_absen = DataAbsen::where('jadwal_absen_id', 1)->whereDate('created_at', date('Y-m-d'))->first();
+        $this->jadwal_id = $jadwal_id;
         if ($data_absen) {
-
-            $this->jadwal_id = $jadwal_id;
             $this->emit('showModalWebcam');
         } else {
+            if ($jadwal_id == 1) {
+                return $this->emit('showModalWebcam');
+            }
             $this->emit('showAlertError', ['msg' => 'Anda belum absen masuk']);
         }
     }
