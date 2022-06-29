@@ -256,7 +256,7 @@
             });
             window.livewire.on('showModalWebcam', (type) => {
                 Webcam.set({
-                    width: 400,
+                    width: 350,
                     height: 350,
                     image_format: 'png',
                     jpeg_quality: 90
