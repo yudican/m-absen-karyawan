@@ -2,11 +2,13 @@
 
 namespace App\Http\Livewire\Table;
 
+use App\Exports\ExportDataAbsen;
 use App\Models\HideableColumn;
 use App\Models\DataAbsen;
 use Mediconesystems\LivewireDatatables\BooleanColumn;
 use Mediconesystems\LivewireDatatables\Column;
 use App\Http\Livewire\Table\LivewireDatatable;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DataAbsenTable extends LivewireDatatable
 {
@@ -14,6 +16,7 @@ class DataAbsenTable extends LivewireDatatable
     public $hideable = 'select';
     public $table_name = 'tbl_data_absen';
     public $hide = [];
+    public $exportable = true;
 
     public function builder()
     {
@@ -25,12 +28,13 @@ class DataAbsenTable extends LivewireDatatable
         $this->hide = HideableColumn::where(['table_name' => $this->table_name, 'user_id' => auth()->user()->id])->pluck('column_name')->toArray();
         return [
             Column::name('id')->label('No.'),
-            Column::name('user.name')->label('User Id')->searchable(),
-            Column::name('jadwalAbsen.nama_jadwal')->label('Jadwal Absen Id')->searchable(),
+            Column::name('user.username')->label('NIK Karyawan')->searchable(),
+            Column::name('user.name')->label('Nama Karyawan')->searchable(),
+            Column::name('jadwalAbsen.nama_jadwal')->label('Jenis Absen')->searchable(),
             Column::name('waktu_absen')->label('Waktu Absen')->searchable(),
-            Column::callback('foto_absen', function ($image) {
-                return '<img src="' . $image . '" style="height:30px;"  />';
-            })->label('Foto Absen')->searchable(),
+            // Column::callback('foto_absen', function ($image) {
+            //     return '<img src="' . $image . '" style="height:30px;"  />';
+            // })->label('Foto Absen')->searchable(),
             // Column::name('status_absen')->label('Status Absen')->searchable(),
             // Column::name('status_perizinan')->label('Status Perizinan')->searchable(),
 
@@ -87,5 +91,10 @@ class DataAbsenTable extends LivewireDatatable
         } else {
             $column->delete();
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new ExportDataAbsen(), 'data-absen.xlsx');
     }
 }

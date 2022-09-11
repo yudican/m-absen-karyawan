@@ -13,6 +13,7 @@ use Str;
 class Dashboard extends Component
 {
     public $jadwal_id;
+    public $jam_absen;
     public function render()
     {
         $role  = auth()->user()->role->role_type;
@@ -50,12 +51,27 @@ class Dashboard extends Component
         ]);
     }
 
+    public function showModalAbsen($jadwal_id)
+    {
+        $data_absen = DataAbsen::where('jadwal_absen_id', 1)->whereDate('created_at', date('Y-m-d'))->first();
+        $this->jadwal_id = $jadwal_id;
+        $this->jam_absen = date('Y-m-d H:i:s');
+        if ($data_absen) {
+            return $this->emit('showModalAbsen', 'show');
+        } else {
+            if ($jadwal_id == 1) {
+                return $this->emit('showModalAbsen', 'show');
+            }
+            $this->emit('showAlertError', ['msg' => 'Anda belum absen masuk']);
+        }
+    }
+
     public function takePhoto()
     {
         $this->emit('showModalWebcam', 'take');
     }
 
-    public function simpanAbsen($image)
+    public function simpanAbsen()
     {
         // create image
         try {
@@ -63,7 +79,7 @@ class Dashboard extends Component
 
             // jadwal
             $jadwal_absen = JadwalAbsen::find($this->jadwal_id);
-            $jam_absen = date('Y-m-d H:i:s');
+            $jam_absen = $this->jam_absen;
             $waktu_absen = date('Y-m-d ') . $jadwal_absen->waktu_absen;
             $status_absen = 1;
             $minutes_late = 0;
@@ -76,7 +92,7 @@ class Dashboard extends Component
                 'user_id'  => auth()->user()->id,
                 'jadwal_absen_id'  => $jadwal_absen->id,
                 'waktu_absen'  => $jam_absen,
-                'foto_absen'  => $image,
+                // 'foto_absen'  => $image,
                 'status_absen'  => $status_absen,
                 'status_perizinan'  => 1,
                 'note'  => $minutes_late > 0 ? 'Terlambat ' . $minutes_late . ' menit' : '',
@@ -85,6 +101,7 @@ class Dashboard extends Component
             DataAbsen::create($data);
             $this->jadwal_id = null;
             $this->emit('closeModal');
+            $this->emit('showModalAbsen', 'hide');
             DB::commit();
 
             if ($minutes_late > 0) {
@@ -98,22 +115,11 @@ class Dashboard extends Component
         }
     }
 
-    public function showModalWebcam($jadwal_id)
-    {
-        $data_absen = DataAbsen::where('jadwal_absen_id', 1)->whereDate('created_at', date('Y-m-d'))->first();
-        $this->jadwal_id = $jadwal_id;
-        if ($data_absen) {
-            $this->emit('showModalWebcam');
-        } else {
-            if ($jadwal_id == 1) {
-                return $this->emit('showModalWebcam');
-            }
-            $this->emit('showAlertError', ['msg' => 'Anda belum absen masuk']);
-        }
-    }
+
 
     public function cancel()
     {
         $this->emit('closeModal');
+        $this->emit('showModalAbsen', 'hide');
     }
 }

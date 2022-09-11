@@ -175,7 +175,7 @@
                                     @if ($item->hasAbsen($item->id) > 0)
                                     <button class="btn btn-success btn-xs" disabled>Sudah Absen</button>
                                     @else
-                                    <button class="btn btn-primary btn-xs" wire:click="showModalWebcam('{{$item->id}}')">Absen</button>
+                                    <button class="btn btn-primary btn-xs" wire:click="showModalAbsen('{{$item->id}}')">Absen</button>
                                     @endif
 
                                 </td>
@@ -228,17 +228,20 @@
     </div>
 
     {{-- Modal confirm --}}
-    <div id="webcam-modal" wire:ignore.self class="modal fade" tabindex="-1" permission="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+    <div id="absen-modal" wire:ignore.self class="modal fade" tabindex="-1" permission="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
         <div class="modal-dialog" permission="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="my-modal-title">Form Absen</h5>
                 </div>
                 <div class="modal-body text-center">
-                    <div id="my_camera" class="mx-auto"></div>
+                    <div class="form-group">
+                        <label for="absen-input">Waktu Absen</label>
+                        <input id="absen-input" class="form-control" type="text" wire:model="jam_absen" readonly>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" wire:click='takePhoto' class="btn btn-primary btn-sm"><i class="fa fa-check pr-2"></i>Simpan Absen</button>
+                    <button type="submit" wire:click='simpanAbsen' class="btn btn-primary btn-sm"><i class="fa fa-check pr-2"></i>Simpan Absen</button>
                     <button class="btn btn-danger btn-sm" wire:click='cancel'><i class="fa fa-times pr-2"></i>Batal</a>
                 </div>
             </div>
@@ -254,26 +257,30 @@
                 
                 
             });
-            window.livewire.on('showModalWebcam', (type) => {
-                Webcam.set({
-                    width: 350,
-                    height: 350,
-                    image_format: 'png',
-                    jpeg_quality: 90
-                });
-                Webcam.attach( '#my_camera' );
-                if (type === 'take') {
-                    Webcam.snap( function(data_uri) {
-                        @this.call('simpanAbsen', data_uri);
-                    });
-                }else{
-                    $('#webcam-modal').modal('show')
-                }
+            // window.livewire.on('showModalWebcam', (type) => {
+            //     Webcam.set({
+            //         width: 350,
+            //         height: 350,
+            //         image_format: 'png',
+            //         jpeg_quality: 90
+            //     });
+            //     Webcam.attach( '#my_camera' );
+            //     if (type === 'take') {
+            //         Webcam.snap( function(data_uri) {
+            //             @this.call('simpanAbsen', data_uri);
+            //         });
+            //     }else{
+            //         $('#webcam-modal').modal('show')
+            //     }
                 
-            });
+            // });
 
             window.livewire.on('closeModal', (data) => {
-                $('#webcam-modal').modal('hide')
+                $('#absen-modal').modal('hide')
+            });
+
+            window.livewire.on('showModalAbsen', (data) => {
+                $('#absen-modal').modal(data)
             });
         })
     </script>
