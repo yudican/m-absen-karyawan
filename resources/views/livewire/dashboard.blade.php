@@ -201,7 +201,6 @@
                                 <td>No.</td>
                                 @if (in_array($role, ['superadmin', 'admin']))
                                 <td>Nama</td>
-                                <td>foto</td>
                                 @endif
                                 <td>Jenis Absen</td>
                                 <td>Waktu Absen</td>
@@ -213,7 +212,6 @@
                                 <td>{{$key+1}}</td>
                                 @if (in_array($role, ['superadmin', 'admin']))
                                 <td>{{$absen->user->name}}</td>
-                                <td><img src="{{$absen->foto_absen}}" alt="foto absen" style="height: 40px;"></td>
                                 @endif
 
                                 <td>{{$absen->jadwalAbsen->nama_jadwal}}</td>
