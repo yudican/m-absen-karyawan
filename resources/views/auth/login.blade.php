@@ -6,7 +6,10 @@
         @if (session()->has('error'))
         <div class="alert alert-danger">{{session()->get('error')}}</div>
         @endif
-        <h3 class="text-center">Masuk</h3>
+        <div class="text-center">
+            <img src="https://i.ibb.co/YZCZc2h/Whats-App-Image-2022-09-27-at-15-22-41.jpg" style="width:150px;border-radius:50%;" alt="">
+            <h3 class="mt-2">Masuk</h3>
+        </div>
         @if (request()->segment(1) == 'login-member')
         <form method="POST" action="{{ route('member.login') }}">
             @csrf

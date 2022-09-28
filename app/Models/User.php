@@ -111,4 +111,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(DataAbsen::class);
     }
+
+    /**
+     * Get the dataKaryawan associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function dataKaryawan()
+    {
+        return $this->hasOne(DataKaryawan::class);
+    }
 }
