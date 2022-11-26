@@ -18,7 +18,7 @@
                     <label for="username" class="placeholder"><b>Username</b></label>
                     <input id="username" type="text" class="form-control" name="username" :value="old('username')" required>
                 </div>
-                {{-- <div class="form-group">
+                <div class="form-group">
                     <label for="password" class="placeholder"><b>Password</b></label>
                     <div class="position-relative">
                         <input id="password" name="password" type="password" class="form-control" required>
@@ -26,7 +26,7 @@
                             <i class="icon-eye"></i>
                         </div>
                     </div>
-                </div> --}}
+                </div>
                 <div class="form-group form-action-d-flex mb-3">
                     <button type="submit" class="btn btn-secondary col-md-5 float-right mt-3 mt-sm-0 fw-bold">Masuk</button>
                 </div>

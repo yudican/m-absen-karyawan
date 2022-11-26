@@ -159,4 +159,20 @@ class DataAbsenController extends Component
         $this->update_mode = false;
         $this->modal = true;
     }
+
+    public function setFilter()
+    {
+        $this->validate(
+            [
+                'startDate' => 'required',
+                'endDate' => 'required',
+            ]
+        );
+
+        if (strtotime($this->startDate) > strtotime($this->endDate)) {
+            return $this->emit('showAlert', ['msg' => 'Tanggal awal tidak boleh lebih besar dari tanggal akhir']);
+        }
+
+        $this->emit('setFilter', [$this->startDate, $this->endDate]);
+    }
 }

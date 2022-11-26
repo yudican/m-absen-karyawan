@@ -12,15 +12,19 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class DataAbsenTable extends LivewireDatatable
 {
-    protected $listeners = ['refreshTable'];
+    protected $listeners = ['refreshTable', 'setFilter'];
     public $hideable = 'select';
     public $table_name = 'tbl_data_absen';
     public $hide = [];
     public $exportable = true;
+    public $dateFilter;
 
     public function builder()
     {
-        return DataAbsen::query();
+        if (isset($this->dateFilter) && is_array($this->dateFilter)) {
+            return DataAbsen::query()->whereBetween('waktu_absen', $this->dateFilter)->orderBy('waktu_absen', 'asc');
+        }
+        return DataAbsen::query()->orderBy('waktu_absen', 'asc');
     }
 
     public function columns()
@@ -96,5 +100,10 @@ class DataAbsenTable extends LivewireDatatable
     public function export()
     {
         return Excel::download(new ExportDataAbsen(), 'data-absen.xlsx');
+    }
+
+    public function setFilter($date)
+    {
+        $this->dateFilter = $date;
     }
 }

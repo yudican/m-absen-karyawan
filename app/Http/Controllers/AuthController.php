@@ -58,6 +58,7 @@ class AuthController extends Controller
 
         $validate = Validator::make($request->all(), [
             'username' => 'required',
+            'password' => 'required',
         ]);
 
         if ($validate->fails()) {
@@ -68,8 +69,13 @@ class AuthController extends Controller
             return redirect('login-member')->with(['error' => 'Username tidak terdaftar']);
         }
 
-        if (Auth::login($user)) {
-            return redirect('login-member')->with(['error' => 'Username atau password salah']);
+        $credentials = request(['username', 'password']);
+        if (!Auth::attempt($credentials)) {
+            return redirect('login')->with(['error' => 'Username atau password salah']);
+        }
+
+        if (!Hash::check($request->password, $user->password)) {
+            return redirect('login')->with(['error' => 'Unathorized, password yang kamu masukkan tidak sesuai']);
         }
 
         return redirect('dashboard');

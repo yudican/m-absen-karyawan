@@ -11,6 +11,17 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-12 row">
+            <div class="col-md-6">
+                <x-text-field type="date" name="startDate" label="Tanggal Mulai" />
+            </div>
+            <div class="col-md-6">
+                <x-text-field type="date" name="endDate" label="Tanggal Akhir" />
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-primary btn-sm" wire:click='setFilter'><i class="fa fa-calendar pr-2"></i>Terapkan</a>
+            </div>
+        </div>
         <div class="col-md-12">
             <livewire:table.data-absen-table params="{{$route_name}}" />
         </div>
