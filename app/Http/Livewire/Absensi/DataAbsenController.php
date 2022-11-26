@@ -18,6 +18,10 @@ class DataAbsenController extends Component
     public $status_perizinan;
 
 
+    public $startDate;
+    public $endDate;
+
+
 
     public $route_name = null;
 
