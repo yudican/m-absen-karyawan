@@ -22,9 +22,9 @@ class DataAbsenTable extends LivewireDatatable
     public function builder()
     {
         if (isset($this->dateFilter) && is_array($this->dateFilter)) {
-            return DataAbsen::query()->whereBetween('waktu_absen', $this->dateFilter)->orderBy('waktu_absen', 'asc');
+            return DataAbsen::query()->whereBetween('waktu_absen', $this->dateFilter)->orderBy('waktu_absen', 'desc');
         }
-        return DataAbsen::query()->orderBy('waktu_absen', 'asc');
+        return DataAbsen::query()->orderBy('waktu_absen', 'desc');
     }
 
     public function columns()
@@ -99,7 +99,7 @@ class DataAbsenTable extends LivewireDatatable
 
     public function export()
     {
-        return Excel::download(new ExportDataAbsen(), 'data-absen.xlsx');
+        return Excel::download(new ExportDataAbsen($this->dateFilter), 'data-absen.xlsx');
     }
 
     public function setFilter($date)

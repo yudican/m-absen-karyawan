@@ -174,7 +174,7 @@ class DataAbsenController extends Component
         );
 
         if (strtotime($this->startDate) > strtotime($this->endDate)) {
-            return $this->emit('showAlert', ['msg' => 'Tanggal awal tidak boleh lebih besar dari tanggal akhir']);
+            return $this->emit('showAlertError', ['msg' => 'Tanggal awal tidak boleh lebih besar dari tanggal akhir']);
         }
 
         $this->emit('setFilter', [$this->startDate, $this->endDate]);

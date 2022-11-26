@@ -14,10 +14,10 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 // waktu_absen
 class ExportDataAbsen implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
 {
-    protected $params = [];
+    protected $params = null;
     protected $title = null;
 
-    public function __construct($params = [], $title = 'Menu List')
+    public function __construct($params = null, $title = 'Menu List')
     {
         $this->params = $params;
         $this->title = $title;
@@ -25,7 +25,10 @@ class ExportDataAbsen implements FromQuery, WithHeadings, WithMapping, ShouldAut
 
     public function query()
     {
-        return DataAbsen::query();
+        if ($this->params) {
+            return DataAbsen::query()->whereBetween('waktu_absen', $this->params)->orderBy('waktu_absen', 'desc');
+        }
+        return DataAbsen::query()->orderBy('waktu_absen', 'desc');
     }
 
     public function map($row): array
