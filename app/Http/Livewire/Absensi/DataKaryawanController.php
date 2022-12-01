@@ -24,6 +24,7 @@ class DataKaryawanController extends Component
     public $name;
     public $email;
     public $user_id;
+    public $password;
 
     public $route_name = null;
 
@@ -58,7 +59,7 @@ class DataKaryawanController extends Component
                 'name' => $this->name,
                 'email' => $this->email,
                 'username' => $this->nik,
-                'password' => Hash::make(date('dmY', strtotime($this->tgl_lahir))),
+                'password' => Hash::make($this->password),
             ]);
 
             $data = [
@@ -102,10 +103,17 @@ class DataKaryawanController extends Component
             'jenis_kelamin'  => $this->jenis_kelamin,
         ];
 
-        $user->update([
+        $dataUser = [
             'name' => $this->name,
             'email' => $this->email,
-        ]);
+        ];
+
+        if ($this->password) {
+            $dataUser['password'] = Hash::make($this->password);
+        }
+
+        $user->update($dataUser);
+
         $user->dataKaryawan()->update($data);
 
         $this->_reset();
@@ -131,6 +139,10 @@ class DataKaryawanController extends Component
             'tgl_masuk'  => 'required',
             'jabatan'  => 'required'
         ];
+
+        if (!$this->update_mode) {
+            $rule['password'] = 'required';
+        }
 
         return $this->validate($rule);
     }

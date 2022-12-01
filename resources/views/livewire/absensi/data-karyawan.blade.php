@@ -45,6 +45,7 @@
                             <option value="Laki-Laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
                         </x-select>
+                        <x-text-field type="password" name="password" label="Kata Sandi" />
                         <x-text-field type="text" name="jabatan" label="Jabatan" />
                     </div>
                     <div class="modal-footer">
