@@ -58,7 +58,7 @@ class DataKaryawanController extends Component
             $user = User::create([
                 'name' => $this->name,
                 'email' => $this->email,
-                'username' => $this->nik,
+                'username' => $this->password,
                 'password' => Hash::make($this->password),
             ]);
 
@@ -162,6 +162,7 @@ class DataKaryawanController extends Component
         $this->name = $row->user->name;
         $this->email = $row->user->email;
         $this->user_id = $row->user_id;
+        $this->password = $row->user->username;
         if ($this->form) {
             $this->form_active = true;
             $this->emit('loadForm');

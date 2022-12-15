@@ -51,7 +51,7 @@ class DataAbsenController extends Component
         $data = [
             'user_id'  => $this->user_id,
             'jadwal_absen_id'  => $this->jadwal_absen_id,
-            'waktu_absen'  => $this->waktu_absen,
+            'waktu_absen'  => date('Y-m-d H:i:s', strtotime('+2 hours', strtotime($this->waktu_absen))),
             'foto_absen'  => $this->foto_absen,
             'status_absen'  => $this->status_absen,
             'status_perizinan'  => $this->status_perizinan
@@ -70,7 +70,7 @@ class DataAbsenController extends Component
         $data = [
             'user_id'  => $this->user_id,
             'jadwal_absen_id'  => $this->jadwal_absen_id,
-            'waktu_absen'  => $this->waktu_absen,
+            'waktu_absen'  => date('Y-m-d H:i:s', strtotime('+2 hours', strtotime($this->waktu_absen))),
             'foto_absen'  => $this->foto_absen,
             'status_absen'  => $this->status_absen,
             'status_perizinan'  => $this->status_perizinan
